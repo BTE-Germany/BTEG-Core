@@ -1,0 +1,34 @@
+# https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
+[versions]
+io-papermc-paper-paper-api = "26.3.build.+"
+dev-triumphteam-triumph-gui = "3.1.13"
+org-json-json = "20260522"
+# https://github.com/aikar/commands
+co-aikar-acf-paper = "0.5.1-SNAPSHOT"
+co-aikar-acf-velocity = "0.5.1-SNAPSHOT"
+co-aikar-acf-core = "0.5.1-SNAPSHOT"
+# https://plugins.gradle.org/plugin/io.freefair.lombok
+org-spongepowered-configurate-core = "4.2.0"
+org-spongepowered-configurate-hocon = "4.2.0"
+org-spongepowered-configurate-yaml = "4.2.0"
+com-velocitypowered-velocity-api = "4.3.0"
+net-kyori-adventure-text-minimessage = "5.2.0"
+li-cinnazeyy-langlibs-api = "1.6.0"
+lombok = "9.5.0"
+
+[libraries]
+io-papermc-paper-paper-api = { module = "io.papermc.paper:paper-api", version.ref = "io-papermc-paper-paper-api" }
+dev-triumphteam-triumph-gui = { module = "dev.triumphteam:triumph-gui", version.ref = "dev-triumphteam-triumph-gui" }
+org-json-json = { module = "org.json:json", version.ref = "org-json-json" }
+co-aikar-acf-paper = { module = "co.aikar:acf-paper", version.ref = "co-aikar-acf-paper" }
+co-aikar-acf-velocity = { module = "co.aikar:acf-velocity", version.ref = "co-aikar-acf-velocity" }
+co-aikar-acf-core = { module = "co.aikar:acf-core", version.ref = "co-aikar-acf-core" }
+org-spongepowered-configurate-core = { module = "org.spongepowered:configurate-core", version.ref = "org-spongepowered-configurate-core" }
+org-spongepowered-configurate-hocon = { module = "org.spongepowered:configurate-hocon", version.ref = "org-spongepowered-configurate-hocon" }
+org-spongepowered-configurate-yaml = { module = "org.spongepowered:configurate-yaml", version.ref = "org-spongepowered-configurate-yaml" }
+com-velocitypowered-velocity-api = { module = "com.velocitypowered:velocity-api", version.ref = "com-velocitypowered-velocity-api" }
+net-kyori-adventure-text-minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "net-kyori-adventure-text-minimessage" }
+li-cinnazeyy-langlibs-api = { module = "li.cinnazeyy:LangLibs-API", version.ref = "li-cinnazeyy-langlibs-api" }
+
+[plugins]
+lombok = { id = "io.freefair.lombok", version.ref = "lombok" }
