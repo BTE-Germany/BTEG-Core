@@ -7,13 +7,13 @@ org-json-json = "20260522"
 co-aikar-acf-paper = "0.5.1-SNAPSHOT"
 co-aikar-acf-velocity = "0.5.1-SNAPSHOT"
 co-aikar-acf-core = "0.5.1-SNAPSHOT"
-# https://plugins.gradle.org/plugin/io.freefair.lombok
 org-spongepowered-configurate-core = "4.2.0"
 org-spongepowered-configurate-hocon = "4.2.0"
 org-spongepowered-configurate-yaml = "4.2.0"
 com-velocitypowered-velocity-api = "4.3.0"
 net-kyori-adventure-text-minimessage = "5.2.0"
 li-cinnazeyy-langlibs-api = "1.6.0"
+# https://plugins.gradle.org/plugin/io.freefair.lombok
 lombok = "9.5.0"
 
 [libraries]

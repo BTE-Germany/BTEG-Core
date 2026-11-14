@@ -11,7 +11,7 @@ import de.btegermany.core.paper.messaging.PaperTranslationProvider;
 import lombok.AccessLevel;
 import lombok.Getter;
 
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 @Getter(AccessLevel.PACKAGE)
 public class PaperPluginSetup extends PluginSetup {
@@ -25,24 +25,24 @@ public class PaperPluginSetup extends PluginSetup {
         this.commandManager = new PaperCommandManager(plugin);
     }
 
-    public PaperPluginSetup pluginChannels(Consumer<PluginChannelsSetup> consumer) {
-        executeStep(consumer, new PluginChannelsSetup(this));
+    public PaperPluginSetup pluginChannels(BiConsumer<PaperPluginSetup, PluginChannelsSetup> consumer) {
+        executeStep(consumer, this, new PluginChannelsSetup(this));
         return this;
     }
 
-    public PaperPluginSetup events(Consumer<EventsSetup> consumer) {
-        executeStep(consumer, new EventsSetup(this));
+    public PaperPluginSetup events(BiConsumer<PaperPluginSetup, EventsSetup> consumer) {
+        executeStep(consumer, this, new EventsSetup(this));
         return this;
     }
 
-    public PaperPluginSetup commands(Consumer<CommandsSetup<PaperCommandManager>> consumer) {
-        executeStep(consumer, new CommandsSetup<>(this.commandManager, this.getDefaultCompletions()));
+    public PaperPluginSetup commands(BiConsumer<PaperPluginSetup, CommandsSetup<PaperCommandManager>> consumer) {
+        executeStep(consumer, this, new CommandsSetup<>(this.commandManager, this.getDefaultCompletions()));
         return this;
     }
 
-    public PaperPluginSetup messaging(Consumer<MessagingSetup> consumer) {
+    public PaperPluginSetup messaging(BiConsumer<PaperPluginSetup, MessagingSetup> consumer) {
         MessagingSetup messagingSetup = new MessagingSetup();
-        executeStep(consumer, messagingSetup);
+        executeStep(consumer, this, messagingSetup);
 
         this.messenger = new PaperMessenger(
             messagingSetup.buildMiniMessage(),
@@ -51,9 +51,9 @@ public class PaperPluginSetup extends PluginSetup {
         return this;
     }
 
-    public PaperPluginSetup utils(Consumer<UtilsSetup> consumer) {
+    public PaperPluginSetup utils(BiConsumer<PaperPluginSetup, UtilsSetup> consumer) {
         UtilsSetup utilsSetup = new UtilsSetup();
-        executeStep(consumer, utilsSetup);
+        executeStep(consumer, this, utilsSetup);
 
         this.utils = utilsSetup.buildUtils();
         return this;

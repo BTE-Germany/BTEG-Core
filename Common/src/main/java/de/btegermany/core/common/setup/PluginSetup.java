@@ -1,13 +1,13 @@
 package de.btegermany.core.common.setup;
 
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 public class PluginSetup implements Disableable {
     private final DisableablesManager disableablesManager = new DisableablesManager();
 
-    protected <T> void executeStep(Consumer<T> consumer, T step) {
+    protected <T extends PluginSetup, U> void executeStep(BiConsumer<T, U> consumer, T setup, U step) {
         this.disableablesManager.storeIfDisableable(step);
-        consumer.accept(step);
+        consumer.accept(setup, step);
     }
 
     @Override

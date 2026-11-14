@@ -10,7 +10,7 @@ import de.btegermany.core.velocity.messaging.VelocityTranslationProvider;
 import lombok.AccessLevel;
 import lombok.Getter;
 
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
 @Getter(AccessLevel.PACKAGE)
 public class VelocityPluginSetup extends PluginSetup {
@@ -24,24 +24,24 @@ public class VelocityPluginSetup extends PluginSetup {
         this.commandManager = new VelocityCommandManager(plugin.getProxyServer(), plugin);
     }
 
-    public VelocityPluginSetup pluginChannels(Consumer<PluginChannelsSetup> consumer) {
-        executeStep(consumer, new PluginChannelsSetup(this));
+    public VelocityPluginSetup pluginChannels(BiConsumer<VelocityPluginSetup, PluginChannelsSetup> consumer) {
+        executeStep(consumer, this, new PluginChannelsSetup(this));
         return this;
     }
 
-    public VelocityPluginSetup events(Consumer<EventsSetup> consumer) {
-        executeStep(consumer, new EventsSetup(this));
+    public VelocityPluginSetup events(BiConsumer<VelocityPluginSetup, EventsSetup> consumer) {
+        executeStep(consumer, this, new EventsSetup(this));
         return this;
     }
 
-    public VelocityPluginSetup commands(Consumer<CommandsSetup<VelocityCommandManager>> consumer) {
-        executeStep(consumer, new CommandsSetup<>(this.commandManager));
+    public VelocityPluginSetup commands(BiConsumer<VelocityPluginSetup, CommandsSetup<VelocityCommandManager>> consumer) {
+        executeStep(consumer, this, new CommandsSetup<>(this.commandManager));
         return this;
     }
 
-    public VelocityPluginSetup messaging(Consumer<MessagingSetup> consumer) {
+    public VelocityPluginSetup messaging(BiConsumer<VelocityPluginSetup, MessagingSetup> consumer) {
         MessagingSetup messagingSetup = new MessagingSetup();
-        executeStep(consumer, messagingSetup);
+        executeStep(consumer, this, messagingSetup);
 
         this.messenger = new VelocityMessenger(
                 messagingSetup.buildMiniMessage(),
@@ -50,9 +50,9 @@ public class VelocityPluginSetup extends PluginSetup {
         return this;
     }
 
-    public VelocityPluginSetup utils(Consumer<UtilsSetup> consumer) {
+    public VelocityPluginSetup utils(BiConsumer<VelocityPluginSetup, UtilsSetup> consumer) {
         UtilsSetup utilsSetup = new UtilsSetup(this.plugin);
-        executeStep(consumer, utilsSetup);
+        executeStep(consumer, this, utilsSetup);
 
         this.utils = utilsSetup.buildUtils();
         return this;
