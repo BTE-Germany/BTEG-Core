@@ -8,7 +8,7 @@ plugins {
 version = "1.0-SNAPSHOT"
 
 dependencies {
-    compileOnly(project(":core-common"))
+    api(project(":core-common"))
     compileOnly(libs.io.papermc.paper.paper.api)
     compileOnly(libs.dev.triumphteam.triumph.gui) {
         exclude (group = "org.jetbrains", module = "annotations")

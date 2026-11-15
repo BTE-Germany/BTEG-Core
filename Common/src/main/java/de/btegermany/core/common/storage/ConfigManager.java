@@ -2,47 +2,62 @@ package de.btegermany.core.common.storage;
 
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.loader.ConfigurationLoader;
+import org.spongepowered.configurate.loader.AbstractConfigurationLoader;
 
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO: @ConfigSerializable ?
 public class ConfigManager {
-    private final Map<String, ConfigurationLoader<CommentedConfigurationNode>> loaders = new HashMap<>();
-    private final Map<String, CommentedConfigurationNode> rootNodes = new HashMap<>();
+    private final Map<Class<?>, AbstractConfigurationLoader<CommentedConfigurationNode>> loaders = new HashMap<>();
+    private final Map<Class<?>, CommentedConfigurationNode> rootNodes = new HashMap<>();
 
-    public synchronized void addLoader(String name, ConfigurationLoader<CommentedConfigurationNode> loader) {
-        this.loaders.put(name, loader);
-    }
+    public <T> T load(Class<T> configClass, Path configPath) {
+        String fileName = configPath.toFile().getName();
+        AbstractConfigurationLoader<CommentedConfigurationNode> loader;
 
-    public synchronized CommentedConfigurationNode get(String loaderName) {
-        if (!this.rootNodes.containsKey(loaderName)) {
-            this.reload(loaderName);
+        if (fileName.endsWith(".conf")) {
+            loader = DefaultConfigLoaders.hocon(configPath);
+        } else if (fileName.endsWith(".yaml") || fileName.endsWith(".yml")) {
+            loader = DefaultConfigLoaders.yaml(configPath);
+        } else {
+            throw new RuntimeException("No default loader available for config file '%s'".formatted(configPath.getFileName()));
         }
 
-        return this.rootNodes.get(loaderName);
+        return this.load(configClass, loader);
     }
 
-    //TODO: benötigt? Also echtes reload, initiales load natürlich schon
-    public synchronized void reload(String loaderName) {
+    public synchronized <T> T load(Class<T> configClass, AbstractConfigurationLoader<CommentedConfigurationNode> loader) {
         try {
-            ConfigurationLoader<CommentedConfigurationNode> loader = this.loaders.get(loaderName);
-            CommentedConfigurationNode rootNode = loader.load();
-            this.rootNodes.put(loaderName, rootNode);
+            CommentedConfigurationNode root = loader.load();
+            T config = root.get(configClass);
+            if (config == null) {
+                throw new RuntimeException("Failed to load config '%s'".formatted(configClass.toString()));
+            }
+
+            this.loaders.put(configClass, loader);
+            this.rootNodes.put(configClass, root);
+            return config;
         } catch (ConfigurateException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public synchronized void save(String loaderName) {
+    public synchronized <T> void save(T config) {
+        Class<T> configClass = this.getClassCasted(config);
+
         try {
-            ConfigurationLoader<CommentedConfigurationNode> loader = this.loaders.get(loaderName);
-            CommentedConfigurationNode rootNode = this.get(loaderName);
-            loader.save(rootNode);
+            CommentedConfigurationNode root = this.rootNodes.get(configClass);
+            root.set(config);
+            this.loaders.get(configClass).save(root);
         } catch (ConfigurateException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> Class<T> getClassCasted(T config) {
+        return (Class<T>) config.getClass();
     }
 
 }

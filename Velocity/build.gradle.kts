@@ -8,10 +8,10 @@ plugins {
 version = "1.0-SNAPSHOT"
 
 dependencies {
-    compileOnly(project(":core-common"))
+    api(project(":core-common"))
     compileOnly(libs.com.velocitypowered.velocity.api)
     annotationProcessor(libs.com.velocitypowered.velocity.api)
-    compileOnly(libs.co.aikar.acf.velocity)
+    api(libs.co.aikar.acf.velocity)
 }
 
 publishing {

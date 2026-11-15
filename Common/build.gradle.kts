@@ -8,9 +8,9 @@ plugins {
 version = "1.0-SNAPSHOT"
 
 dependencies {
-    compileOnly(libs.org.spongepowered.configurate.core)
-    compileOnly(libs.org.spongepowered.configurate.hocon)
-    compileOnly(libs.org.spongepowered.configurate.yaml)
+    api(libs.org.spongepowered.configurate.core)
+    api(libs.org.spongepowered.configurate.hocon)
+    api(libs.org.spongepowered.configurate.yaml)
     api(libs.co.aikar.acf.core)
     compileOnly(libs.net.kyori.adventure.text.minimessage)
 }
