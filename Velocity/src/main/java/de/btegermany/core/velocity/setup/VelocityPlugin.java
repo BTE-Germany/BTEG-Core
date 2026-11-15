@@ -3,6 +3,7 @@ package de.btegermany.core.velocity.setup;
 import co.aikar.commands.VelocityCommandManager;
 import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
+import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
@@ -20,13 +21,17 @@ public class VelocityPlugin {
     private final Logger logger;
     @Getter
     private final Path dataDirectoryPath;
-    protected final VelocityPluginSetup setup;
+    protected VelocityPluginSetup setup;
 
     @Inject
     public VelocityPlugin(ProxyServer proxyServer, Logger logger, @DataDirectory Path dataDirectoryPath) {
         this.proxyServer = proxyServer;
         this.logger = logger;
         this.dataDirectoryPath = dataDirectoryPath;
+    }
+
+    @Subscribe
+    public void onProxyInitialization(ProxyInitializeEvent event) {
         this.setup = new VelocityPluginSetup(this);
     }
 

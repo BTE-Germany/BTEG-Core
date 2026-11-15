@@ -8,9 +8,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 @RequiredArgsConstructor
 public class PaperPlugin extends JavaPlugin {
-    protected final PaperPluginSetup setup;
+    protected PaperPluginSetup setup;
 
-    public PaperPlugin() {
+    @Override
+    public void onEnable() {
         this.setup = new PaperPluginSetup(this);
     }
 

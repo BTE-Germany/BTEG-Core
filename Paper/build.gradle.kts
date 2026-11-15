@@ -18,7 +18,7 @@ dependencies {
         exclude (group = "net.kyori", module = "adventure-text-serializer-legacy")
     }
     compileOnly(libs.org.json.json)
-    compileOnly(libs.co.aikar.acf.paper)
+    api(libs.co.aikar.acf.paper)
     compileOnly(libs.li.cinnazeyy.langlibs.api)
 }
 

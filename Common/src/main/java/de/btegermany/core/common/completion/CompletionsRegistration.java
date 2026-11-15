@@ -56,18 +56,7 @@ public class CompletionsRegistration {
             return false;
         }
 
-        // is Collection?
-        if (!Collection.class.isAssignableFrom((Class<?>) apt.getType())) {
-            return false;
-        }
-
-        // is type parameter String?
-        AnnotatedType[] actualTypeArgs = apt.getAnnotatedActualTypeArguments();
-        if (actualTypeArgs.length != 1) {
-            return false;
-        }
-
-        return String.class.equals(actualTypeArgs[0].getType());
+        return apt.getType().toString().equals("java.util.Collection<java.lang.String>");
     }
 
     @SuppressWarnings("unchecked")
