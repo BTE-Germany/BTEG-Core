@@ -1,4 +1,4 @@
-package de.btegermany.core.velocity;
+package de.btegermany.core.velocity.utils;
 
 import com.velocitypowered.api.proxy.ConnectionRequestBuilder;
 import com.velocitypowered.api.proxy.Player;

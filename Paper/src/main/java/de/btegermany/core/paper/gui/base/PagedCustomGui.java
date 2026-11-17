@@ -7,10 +7,12 @@ import de.btegermany.core.paper.gui.itemdata.JsonItemDataParser;
 import de.btegermany.core.paper.item.head.CustomHead;
 import de.btegermany.core.paper.item.ItemGenerator;
 import de.btegermany.core.paper.gui.PagedGuiDataLoader;
+import de.btegermany.core.paper.setup.PaperPlugin;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -34,7 +36,7 @@ public abstract class PagedCustomGui<I extends ItemData> extends CustomGui<Pagin
     protected final GuiItems guiItems;
     private final String[] requestArgs;
 
-    public PagedCustomGui(GuiTitle title, PagedGuiStructure structure, PagedGuiType type, CustomHead defaultHead, Player player, PagedGuiDataLoader<I> dataLoader, JsonItemDataParser<I> itemDataParser, JavaPlugin plugin, ItemGenerator itemGenerator, String... requestArgs) {
+    public PagedCustomGui(GuiTitle title, PagedGuiStructure structure, PagedGuiType type, CustomHead defaultHead, Player player, PagedGuiDataLoader<I> dataLoader, JsonItemDataParser<I> itemDataParser, PaperPlugin plugin, ItemGenerator itemGenerator, String... requestArgs) {
         super(plugin, player, Gui.paginated()
                 .title(title.getComponent())
                 .rows(structure.rows())
@@ -56,11 +58,11 @@ public abstract class PagedCustomGui<I extends ItemData> extends CustomGui<Pagin
     }
 
     private GuiItem previousPageItem() {
-        return this.guiItems.emptyItem("Vorherige Seite", NamedTextColor.GOLD, this::previousPage);
+        return this.guiItems.emptyItem(Component.text("Vorherige Seite", NamedTextColor.GOLD), this::previousPage);
     }
 
     private GuiItem nextPageItem() {
-        return this.guiItems.emptyItem("Nächste Seite", NamedTextColor.GOLD, () -> {
+        return this.guiItems.emptyItem(Component.text("Nächste Seite", NamedTextColor.GOLD), () -> {
             int pagesNum = this.gui.getPagesNum();
             if (this.gui.getCurrentPageNum() == pagesNum - PAGES_TO_LOAD_DATA_BEFORE_LAST) {
                 this.dataLoader.loadMoreData(this, this.requestArgs, pagesNum + 1);

@@ -1,19 +1,24 @@
 package de.btegermany.core.paper.messaging;
 
 import de.btegermany.core.common.messaging.TranslationProvider;
+import de.btegermany.core.paper.setup.PaperPlugin;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.Plugin;
 
-public class PaperTranslationProvider implements TranslationProvider<CommandSender> {
-    private final LangUtil langUtil;
+public class PaperTranslationProvider extends TranslationProvider<CommandSender, PaperTranslationContext> {
+    public PaperTranslationProvider(PaperPlugin plugin, MiniMessage miniMessage) {
+        super(miniMessage);
 
-    public PaperTranslationProvider(Plugin plugin) {
-        this.langUtil = new LangUtil(plugin);
+        LangUtil.init(plugin);
     }
 
     @Override
-    public String get(CommandSender sender, String key) {
-        return this.langUtil.get(sender, key);
+    public String getRaw(CommandSender sender, String key) {
+        return LangUtil.getInstance().get(sender, key);
     }
 
+    @Override
+    public PaperTranslationContext createContext(CommandSender sender) {
+        return new PaperTranslationContext(sender, this);
+    }
 }

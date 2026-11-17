@@ -21,7 +21,7 @@ public class CompletionsRegistration {
             if (!this.isAnnotationPresent(method)) {
                 continue;
             }
-            String completionId = method.getAnnotation(AsyncCompletion.class).id();
+            String completionId = method.getAnnotation(AsyncCompletion.class).value();
 
             if (!this.isCorrectReturnType(method)) {
                 throw new InvalidCompletionException(completionId);

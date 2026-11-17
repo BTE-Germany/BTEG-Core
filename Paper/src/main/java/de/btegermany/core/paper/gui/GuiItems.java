@@ -17,8 +17,8 @@ public class GuiItems {
 
     public GuiItem closeItem(CustomGui<?> gui) {
         return emptyItem(
-                "Schließen",
-                NamedTextColor.DARK_RED,
+                //TODO: translation?
+                Component.text("Schließen", NamedTextColor.DARK_RED),
                 gui::close
         );
     }
@@ -30,10 +30,10 @@ public class GuiItems {
         ));
     }
 
-    public GuiItem emptyItem(String name, TextColor textColor, Runnable onClick) {
+    public GuiItem emptyItem(Component component, Runnable onClick) {
         return new GuiItem(this.itemGenerator.customModel(
                 "empty",
-                Component.text(name, textColor)
+                component
         ), _ -> onClick.run());
     }
 

@@ -4,7 +4,7 @@ import co.aikar.commands.PaperCommandManager;
 import de.btegermany.core.common.setup.CommandsSetup;
 import de.btegermany.core.common.setup.MessagingSetup;
 import de.btegermany.core.common.setup.PluginSetup;
-import de.btegermany.core.paper.Utils;
+import de.btegermany.core.common.utils.Utils;
 import de.btegermany.core.paper.completion.CoreCompletions;
 import de.btegermany.core.paper.messaging.PaperMessenger;
 import de.btegermany.core.paper.messaging.PaperTranslationProvider;
@@ -17,6 +17,7 @@ import java.util.function.BiConsumer;
 public class PaperPluginSetup extends PluginSetup {
     private final PaperPlugin plugin;
     private final PaperCommandManager commandManager;
+    private PaperTranslationProvider translationProvider = null;
     private PaperMessenger messenger = null;
     private Utils utils = null;
 
@@ -44,18 +45,16 @@ public class PaperPluginSetup extends PluginSetup {
         MessagingSetup messagingSetup = new MessagingSetup();
         executeStep(consumer, this, messagingSetup);
 
-        this.messenger = new PaperMessenger(
-            messagingSetup.buildMiniMessage(),
-            new PaperTranslationProvider(this.plugin)
-        );
+        this.translationProvider = new PaperTranslationProvider(plugin, messagingSetup.buildMiniMessage());
+        this.messenger = new PaperMessenger(this.translationProvider);
         return this;
     }
 
-    public PaperPluginSetup utils(BiConsumer<PaperPluginSetup, UtilsSetup> consumer) {
-        UtilsSetup utilsSetup = new UtilsSetup();
+    public PaperPluginSetup utils(BiConsumer<PaperPluginSetup, PaperUtilsSetup> consumer) {
+        PaperUtilsSetup utilsSetup = new PaperUtilsSetup();
         executeStep(consumer, this, utilsSetup);
 
-        this.utils = utilsSetup.buildUtils();
+        this.utils = utilsSetup.getUtils();
         return this;
     }
 

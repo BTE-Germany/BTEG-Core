@@ -7,7 +7,8 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
-import de.btegermany.core.velocity.Utils;
+import de.btegermany.core.common.utils.Utils;
+import de.btegermany.core.velocity.messaging.VelocityTranslationProvider;
 import de.btegermany.core.velocity.messaging.VelocityMessenger;
 import lombok.Getter;
 import org.slf4j.Logger;
@@ -44,11 +45,19 @@ public class VelocityPlugin {
         return this.setup.getCommandManager();
     }
 
+    public VelocityTranslationProvider getTranslationProvider() {
+        return this.setup.getTranslationProvider();
+    }
+
     public VelocityMessenger getMessenger() {
         return this.setup.getMessenger();
     }
 
     public Utils getUtils() {
         return this.setup.getUtils();
+    }
+
+    public <T> T getUtils(Class<T> utilsClass) {
+        return this.getUtils().get(utilsClass);
     }
 }

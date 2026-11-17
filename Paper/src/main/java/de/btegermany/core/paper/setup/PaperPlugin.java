@@ -1,7 +1,8 @@
 package de.btegermany.core.paper.setup;
 
 import co.aikar.commands.PaperCommandManager;
-import de.btegermany.core.paper.Utils;
+import de.btegermany.core.common.utils.Utils;
+import de.btegermany.core.paper.messaging.PaperTranslationProvider;
 import de.btegermany.core.paper.messaging.PaperMessenger;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,6 +25,10 @@ public class PaperPlugin extends JavaPlugin {
         return this.setup.getCommandManager();
     }
 
+    public PaperTranslationProvider getTranslationProvider() {
+        return this.setup.getTranslationProvider();
+    }
+
     public PaperMessenger getMessenger() {
         return this.setup.getMessenger();
     }
@@ -32,4 +37,7 @@ public class PaperPlugin extends JavaPlugin {
         return this.setup.getUtils();
     }
 
+    public <T> T getUtils(Class<T> utilsClass) {
+        return this.getUtils().get(utilsClass);
+    }
 }

@@ -7,6 +7,10 @@ public class PluginSetup implements Disableable {
 
     protected <T extends PluginSetup, U> void executeStep(BiConsumer<T, U> consumer, T setup, U step) {
         this.disableablesManager.storeIfDisableable(step);
+
+        if (consumer == null) {
+            return;
+        }
         consumer.accept(setup, step);
     }
 

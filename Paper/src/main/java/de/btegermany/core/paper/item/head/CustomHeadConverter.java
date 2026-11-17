@@ -2,7 +2,6 @@ package de.btegermany.core.paper.item.head;
 
 import com.destroystokyo.paper.profile.PlayerProfile;
 import com.destroystokyo.paper.profile.ProfileProperty;
-import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -11,14 +10,13 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.Base64;
 import java.util.UUID;
 
-@UtilityClass
 public class CustomHeadConverter {
 
-    public ItemStack toItemStack(CustomHead head) {
+    public static ItemStack toItemStack(CustomHead head) {
         return toItemStack(head.getTexture());
     }
 
-    public ItemStack toItemStack(String texture) {
+    public static ItemStack toItemStack(String texture) {
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
 
         head.editMeta(SkullMeta.class, skullMeta -> {
